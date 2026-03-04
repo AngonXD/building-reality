@@ -1,4 +1,5 @@
 import { useStore } from '../store'
+import { Link } from 'react-router-dom'
 
 export default function HUD() {
   const isDark = useStore((s) => s.isDark)
@@ -50,6 +51,32 @@ export default function HUD() {
           alignItems: 'center',
           gap: '24px',
         }}>
+          {/* Lab Link */}
+          <Link
+            to="/lab"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: '12px',
+              color: isDark ? '#00f0ff' : '#1a1a2e',
+              textDecoration: 'none',
+              letterSpacing: '0.05em',
+              transition: 'all 0.3s ease',
+              padding: '6px 12px',
+              borderRadius: '4px',
+              border: `1px solid ${isDark ? '#00f0ff44' : '#1a1a2e22'}`,
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = isDark ? '#00f0ff' : '#1a1a2e'
+              e.currentTarget.style.boxShadow = isDark ? '0 0 10px #00f0ff55' : 'none'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = isDark ? '#00f0ff44' : '#1a1a2e22'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            /lab
+          </Link>
           {/* Section nav dots */}
           <div style={{
             display: 'flex',

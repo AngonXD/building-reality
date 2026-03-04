@@ -1,5 +1,6 @@
 import { useStore } from '../store'
 import { aboutData } from '../data/projects'
+import SkillsVisualization from './SkillsVisualization'
 
 export default function AboutOverlay() {
   const isDark = useStore((s) => s.isDark)
@@ -48,44 +49,8 @@ export default function AboutOverlay() {
           {aboutData.bio}
         </p>
 
-        {/* Skills grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '20px',
-          marginBottom: '32px',
-        }}>
-          {Object.entries(aboutData.skills).map(([category, skills]) => (
-            <div key={category}>
-              <div style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '11px',
-                color: isDark ? '#00f0ff' : '#1a1a2e',
-                textTransform: 'uppercase',
-                letterSpacing: '0.15em',
-                marginBottom: '12px',
-                opacity: 0.6,
-              }}>
-                {category}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {skills.map((skill, i) => (
-                  <span key={i} style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '11px',
-                    padding: '4px 10px',
-                    border: `1px solid ${isDark ? '#00f0ff33' : '#1a1a2e22'}`,
-                    borderRadius: '3px',
-                    color: isDark ? '#e0e6edaa' : '#1a1a2eaa',
-                    background: isDark ? '#00f0ff08' : '#1a1a2e05',
-                  }}>
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Skills Visualization */}
+        <SkillsVisualization isDark={isDark} />
 
         {/* Stats */}
         <div style={{

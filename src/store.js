@@ -25,6 +25,10 @@ export const useStore = create((set) => ({
   selectedProject: null,
   setSelectedProject: (project) => set({ selectedProject: project }),
 
+  // Show/hide project modal
+  showProjectModal: false,
+  setShowProjectModal: (show) => set({ showProjectModal: show }),
+
   // Current section (hero, about, projects, contact)
   currentSection: 'hero',
   setCurrentSection: (section) => set({ currentSection: section }),

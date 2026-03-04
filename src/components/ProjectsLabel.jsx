@@ -5,6 +5,7 @@ export default function ProjectsLabel() {
   const isDark = useStore((s) => s.isDark)
   const currentSection = useStore((s) => s.currentSection)
   const activeProject = useStore((s) => s.activeProject)
+  const setShowModal = useStore((s) => s.setShowProjectModal)
 
   const visible = currentSection === 'projects'
   const project = activeProject >= 0 ? projects[activeProject] : null
@@ -36,17 +37,35 @@ export default function ProjectsLabel() {
 
       {/* Project counter */}
       {project && (
-        <div style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '12px',
-          color: isDark ? project.color : '#1a1a2e',
-          letterSpacing: '0.1em',
-          transition: 'color 0.3s ease',
-        }}>
+        <div
+          onClick={() => setShowModal(true)}
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '12px',
+            color: isDark ? project.color : '#1a1a2e',
+            letterSpacing: '0.1em',
+            transition: 'color 0.3s ease',
+            cursor: 'pointer',
+            pointerEvents: 'auto',
+            padding: '8px 16px',
+            borderRadius: '6px',
+            border: `1px solid ${isDark ? project.color + '44' : '#00000022'}`,
+            display: 'inline-block',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = isDark ? project.color + '88' : '#00000044'
+            e.currentTarget.style.background = isDark ? project.color + '11' : '#00000011'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = isDark ? project.color + '44' : '#00000022'
+            e.currentTarget.style.background = 'transparent'
+          }}
+        >
           {String(activeProject + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
           <span style={{ marginLeft: '12px', opacity: 0.5 }}>
             {project.title}
           </span>
+          <span style={{ marginLeft: '12px', opacity: 0.5 }}>→ View Case Study</span>
         </div>
       )}
 
