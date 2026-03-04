@@ -32,17 +32,17 @@ const CircularProgress = ({ skill, percentage, isDark, color, category }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '16px',
+        gap: '12px',
         animation: 'slideInLeft 0.6s ease-out forwards',
         opacity: 0,
       }}
     >
-      <div style={{ position: 'relative', width: '120px', height: '120px' }}>
-        <svg width="120" height="120" style={{ transform: 'rotate(-90deg)' }}>
+      <div style={{ position: 'relative', width: '100px', height: '100px' }}>
+        <svg width="100" height="100" style={{ transform: 'rotate(-90deg)' }}>
           {/* Background circle */}
           <circle
-            cx="60"
-            cy="60"
+            cx="50"
+            cy="50"
             r={radius}
             fill="none"
             stroke={isDark ? '#ffffff11' : '#00000011'}
@@ -50,8 +50,8 @@ const CircularProgress = ({ skill, percentage, isDark, color, category }) => {
           />
           {/* Progress circle */}
           <circle
-            cx="60"
-            cy="60"
+            cx="50"
+            cy="50"
             r={radius}
             fill="none"
             stroke={color}
@@ -76,17 +76,17 @@ const CircularProgress = ({ skill, percentage, isDark, color, category }) => {
             textAlign: 'center',
           }}
         >
-          <div
-            style={{
-              fontSize: '24px',
-              fontWeight: 700,
-              color: color,
-              fontFamily: "'Space Grotesk', sans-serif",
-            }}
-          >
-            {displayValue}
-            <span style={{ fontSize: '14px', opacity: 0.6 }}>%</span>
-          </div>
+        <div
+          style={{
+            fontSize: '18px',
+            fontWeight: 700,
+            color: color,
+            fontFamily: "'Space Grotesk', sans-serif",
+          }}
+        >
+          {displayValue}
+          <span style={{ fontSize: '11px', opacity: 0.6 }}>%</span>
+        </div>
         </div>
       </div>
 
@@ -98,22 +98,22 @@ const CircularProgress = ({ skill, percentage, isDark, color, category }) => {
       >
         <div
           style={{
-            fontSize: '14px',
+            fontSize: '12px',
             fontWeight: 600,
             color: isDark ? '#e0e6ed' : '#1a1a2e',
             fontFamily: "'Space Grotesk', sans-serif",
-            marginBottom: '4px',
+            marginBottom: '2px',
           }}
         >
           {skill}
         </div>
         <div
           style={{
-            fontSize: '11px',
-            color: isDark ? '#e0e6ed99' : '#1a1a2e99',
+            fontSize: '9px',
+            color: isDark ? '#e0e6ed88' : '#1a1a2e88',
             fontFamily: "'JetBrains Mono', monospace",
             textTransform: 'uppercase',
-            letterSpacing: '0.05em',
+            letterSpacing: '0.03em',
           }}
         >
           {category}
@@ -145,15 +145,15 @@ export default function SkillsVisualization({ isDark }) {
   ]
 
   return (
-    <div style={{ marginBottom: '32px' }}>
+    <div style={{ marginBottom: '24px' }}>
       <h3
         style={{
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '12px',
+          fontSize: '11px',
           color: isDark ? '#00f0ff' : '#1a1a2e',
           textTransform: 'uppercase',
           letterSpacing: '0.15em',
-          marginBottom: '32px',
+          marginBottom: '20px',
           opacity: 0.6,
         }}
       >
@@ -163,8 +163,8 @@ export default function SkillsVisualization({ isDark }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: 'clamp(24px, 4vw, 40px)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+          gap: 'clamp(16px, 3vw, 28px)',
         }}
       >
         {skillsData.map((item, idx) => (

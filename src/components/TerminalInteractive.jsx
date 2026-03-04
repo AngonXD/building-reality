@@ -13,6 +13,7 @@ export default function TerminalInteractive() {
   const [input, setInput] = useState('')
   const [displayedOutput, setDisplayedOutput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(false)
   const terminalRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -36,25 +37,70 @@ export default function TerminalInteractive() {
   }, [history, displayedOutput])
 
   const handleExecute = (e) => {
-    if (e.key === 'Enter' && input.trim()) {
-      const command = input.trim()
-      const result = executeCommand(command)
-
-      if (result.isClear) {
-        setHistory([])
-        setDisplayedOutput('')
-      } else {
-        setHistory((prev) => [
-          ...prev,
-          { type: 'command', text: command },
-          { type: 'output', fullOutput: result.output },
-        ])
-        setDisplayedOutput('')
-        setIsTyping(true)
-      }
-
-      setInput('')
+    if (e && e.key === 'Enter' && input.trim()) {
+      executeCmd()
     }
+  }
+
+  const executeCmd = () => {
+    if (!input.trim()) return
+    
+    const command = input.trim()
+    const result = executeCommand(command)
+
+    if (result.isClear) {
+      setHistory([])
+      setDisplayedOutput('')
+    } else {
+      setHistory((prev) => [
+        ...prev,
+        { type: 'command', text: command },
+        { type: 'output', fullOutput: result.output },
+      ])
+      setDisplayedOutput('')
+      setIsTyping(true)
+    }
+
+    setInput('')
+  }
+
+  if (isMinimized) {
+    return (
+      <button
+        onClick={() => setIsMinimized(false)}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          padding: '10px 16px',
+          background: isDark ? 'linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(26, 26, 42, 0.95) 100%)' : 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(30px)',
+          border: `1.5px solid ${isDark ? 'rgba(0, 240, 255, 0.35)' : 'rgba(0, 0, 0, 0.1)'}`,
+          borderRadius: '10px',
+          color: isDark ? '#00f0ff' : '#1a1a2e',
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: '12px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          zIndex: 50,
+          boxShadow: isDark 
+            ? '0 0 30px rgba(0, 240, 255, 0.2)' 
+            : '0 4px 16px rgba(0, 0, 0, 0.1)',
+          letterSpacing: '0.05em',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = isDark ? 'linear-gradient(135deg, rgba(0, 240, 255, 0.25) 0%, rgba(26, 26, 42, 0.98) 100%)' : 'rgba(255, 255, 255, 0.98)'
+          e.currentTarget.style.boxShadow = isDark ? '0 0 40px rgba(0, 240, 255, 0.3)' : '0 6px 20px rgba(0, 0, 0, 0.15)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = isDark ? 'linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(26, 26, 42, 0.95) 100%)' : 'rgba(255, 255, 255, 0.95)'
+          e.currentTarget.style.boxShadow = isDark ? '0 0 30px rgba(0, 240, 255, 0.2)' : '0 4px 16px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        ▶ CLI
+      </button>
+    )
   }
 
   return (
@@ -111,12 +157,35 @@ export default function TerminalInteractive() {
             anish@portfolio
           </div>
         </div>
-        <div style={{ 
-          fontSize: '10px', 
-          color: isDark ? '#00f0ff88' : '#1a1a2e88',
-          letterSpacing: '0.05em'
-        }}>
-          INTERACTIVE SHELL
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ 
+            fontSize: '10px', 
+            color: isDark ? '#00f0ff88' : '#1a1a2e88',
+            letterSpacing: '0.05em'
+          }}>
+            CLI
+          </div>
+          <button
+            onClick={() => setIsMinimized(true)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDark ? '#00f0ff88' : '#1a1a2e88',
+              cursor: 'pointer',
+              fontSize: '14px',
+              padding: '4px 8px',
+              transition: 'color 0.2s ease',
+              fontFamily: "'JetBrains Mono', monospace",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = isDark ? '#00f0ff' : '#1a1a2e'}
+            onMouseLeave={(e) => e.currentTarget.style.color = isDark ? '#00f0ff88' : '#1a1a2e88'}
+            title="Minimize"
+          >
+            −
+          </button>
         </div>
       </div>
 
@@ -192,14 +261,14 @@ export default function TerminalInteractive() {
           gap: '8px',
         }}
       >
-        <span style={{ color: isDark ? '#00f0ff' : '#1a1a2e', fontWeight: 600 }}>{'❯ '}</span>
+        <span style={{ color: isDark ? '#00f0ff' : '#1a1a2e', fontWeight: 600, minWidth: '24px' }}>{'❯ '}</span>
         <input
           ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleExecute}
-          placeholder="Enter command (whoami, skills, projects, contact, help, clear)"
+          placeholder="whoami, skills, projects, contact, help"
           style={{
             flex: 1,
             background: 'transparent',
@@ -209,13 +278,38 @@ export default function TerminalInteractive() {
             fontSize: '12px',
             outline: 'none',
             padding: 0,
-            placeholderColor: isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(26, 26, 42, 0.3)',
-            '::placeholder': {
-              color: isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(26, 26, 42, 0.3)',
-            }
           }}
           autoFocus
         />
+        <button
+          onClick={executeCmd}
+          style={{
+            background: isDark ? 'rgba(0, 240, 255, 0.15)' : 'rgba(26, 26, 42, 0.1)',
+            border: `1px solid ${isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(26, 26, 42, 0.2)'}`,
+            color: isDark ? '#00f0ff' : '#1a1a2e',
+            cursor: 'pointer',
+            padding: '6px 10px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontFamily: "'JetBrains Mono', monospace",
+            fontWeight: 600,
+            transition: 'all 0.2s ease',
+            minWidth: '40px',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = isDark ? 'rgba(0, 240, 255, 0.25)' : 'rgba(26, 26, 42, 0.15)'
+            e.currentTarget.style.borderColor = isDark ? 'rgba(0, 240, 255, 0.5)' : 'rgba(26, 26, 42, 0.3)'
+            e.currentTarget.style.boxShadow = isDark ? '0 0 10px rgba(0, 240, 255, 0.2)' : 'none'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = isDark ? 'rgba(0, 240, 255, 0.15)' : 'rgba(26, 26, 42, 0.1)'
+            e.currentTarget.style.borderColor = isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(26, 26, 42, 0.2)'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
+          title="Send command (Ctrl+Enter)"
+        >
+          ↵
+        </button>
       </div>
 
       {/* Footer hint */}
