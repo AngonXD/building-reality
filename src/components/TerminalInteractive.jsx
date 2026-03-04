@@ -63,44 +63,60 @@ export default function TerminalInteractive() {
         position: 'fixed',
         bottom: '20px',
         right: '20px',
-        width: '400px',
+        width: '450px',
         maxWidth: 'calc(100% - 40px)',
-        background: isDark ? 'rgba(15, 15, 15, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+        background: isDark ? 'linear-gradient(135deg, rgba(15, 15, 15, 0.98) 0%, rgba(26, 26, 42, 0.95) 100%)' : 'rgba(255, 255, 255, 0.98)',
         backdropFilter: 'blur(30px)',
-        border: `1px solid ${isDark ? 'rgba(0, 240, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}`,
-        borderRadius: '12px',
+        border: `1.5px solid ${isDark ? 'rgba(0, 240, 255, 0.25)' : 'rgba(0, 0, 0, 0.1)'}`,
+        borderRadius: '14px',
         overflow: 'hidden',
         zIndex: 50,
-        boxShadow: isDark ? '0 0 30px rgba(0, 240, 255, 0.15)' : '0 8px 32px rgba(0, 0, 0, 0.1)',
+        boxShadow: isDark 
+          ? '0 0 40px rgba(0, 240, 255, 0.2), inset 0 1px 0 rgba(0, 240, 255, 0.1)' 
+          : '0 8px 32px rgba(0, 0, 0, 0.12)',
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: '500px',
+        maxHeight: '600px',
       }}
     >
       {/* Header */}
       <div
         style={{
-          padding: '12px 16px',
-          borderBottom: `1px solid ${isDark ? 'rgba(0, 240, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-          background: isDark ? 'rgba(26, 26, 42, 0.5)' : 'rgba(0, 0, 0, 0.02)',
+          padding: '14px 18px',
+          borderBottom: `1px solid ${isDark ? 'rgba(0, 240, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)'}`,
+          background: isDark ? 'rgba(26, 26, 42, 0.6)' : 'rgba(0, 0, 0, 0.02)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}
       >
-        <div
-          style={{
-            fontSize: '12px',
-            fontFamily: "'JetBrains Mono', monospace",
-            color: isDark ? '#00f0ff' : '#1a1a2e',
-            letterSpacing: '0.1em',
-            fontWeight: 600,
-          }}
-        >
-          anish@portfolio
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{
+            width: '8px',
+            height: '8px',
+            borderRadius: '50%',
+            background: '#10b981',
+            animation: 'glowPulse 2s ease-in-out infinite',
+            boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)'
+          }} />
+          <div
+            style={{
+              fontSize: '12px',
+              fontFamily: "'JetBrains Mono', monospace",
+              color: isDark ? '#00f0ff' : '#1a1a2e',
+              letterSpacing: '0.08em',
+              fontWeight: 600,
+            }}
+          >
+            anish@portfolio
+          </div>
         </div>
-        <div style={{ fontSize: '10px', color: isDark ? '#00f0ff77' : '#1a1a2e77' }}>
-          TERMINAL
+        <div style={{ 
+          fontSize: '10px', 
+          color: isDark ? '#00f0ff88' : '#1a1a2e88',
+          letterSpacing: '0.05em'
+        }}>
+          INTERACTIVE SHELL
         </div>
       </div>
 
@@ -110,35 +126,39 @@ export default function TerminalInteractive() {
         style={{
           flex: 1,
           overflowY: 'auto',
-          padding: '12px 16px',
-          fontSize: '11px',
+          padding: '14px 18px',
+          fontSize: '12px',
           fontFamily: "'JetBrains Mono', monospace",
-          color: isDark ? '#00f0ff' : '#1a1a2e',
-          lineHeight: 1.6,
-          minHeight: '150px',
-          maxHeight: '380px',
+          color: isDark ? '#e0e6ed' : '#1a1a2e',
+          lineHeight: 1.7,
+          minHeight: '180px',
+          maxHeight: '420px',
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
+          background: isDark ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.01)',
         }}
       >
         {history.map((item, idx) => (
           <div key={idx}>
             {item.type === 'welcome' && (
-              <div style={{ opacity: 0.7, marginBottom: '8px' }}>
+              <div style={{ opacity: 0.6, marginBottom: '12px', color: isDark ? '#00f0ff' : '#1a1a2e' }}>
+                <span style={{ fontSize: '10px' }}>{'$ '}</span>
                 {item.text}
               </div>
             )}
             {item.type === 'command' && (
-              <div style={{ marginBottom: '4px', color: isDark ? '#e0e6ed' : '#1a1a2e' }}>
-                <span style={{ opacity: 0.5 }}>{'> '}</span>
-                {item.text}
+              <div style={{ marginBottom: '6px', color: isDark ? '#e0e6ed' : '#374151' }}>
+                <span style={{ color: isDark ? '#00f0ff' : '#1a1a2e', fontWeight: 600 }}>{'❯ '}</span>
+                <span style={{ color: isDark ? '#e0e6ed' : '#1a1a2e' }}>{item.text}</span>
               </div>
             )}
             {item.type === 'output' && (
               <div
                 style={{
-                  marginBottom: '8px',
-                  opacity: idx === history.length - 1 ? 1 : 0.8,
+                  marginBottom: '12px',
+                  opacity: idx === history.length - 1 ? 1 : 0.85,
+                  color: isDark ? '#a0aec0' : '#6b7280',
+                  lineHeight: 1.8,
                 }}
               >
                 {idx === history.length - 1 ? displayedOutput : item.fullOutput}
@@ -147,9 +167,10 @@ export default function TerminalInteractive() {
                     style={{
                       display: 'inline-block',
                       width: '2px',
-                      height: '1em',
+                      height: '1.2em',
                       backgroundColor: isDark ? '#00f0ff' : '#1a1a2e',
-                      marginLeft: '4px',
+                      marginLeft: '3px',
+                      verticalAlign: 'text-bottom',
                       animation: 'typing-blink 1s step-end infinite',
                     }}
                   />
@@ -163,51 +184,54 @@ export default function TerminalInteractive() {
       {/* Input */}
       <div
         style={{
-          padding: '8px 16px',
-          borderTop: `1px solid ${isDark ? 'rgba(0, 240, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-          background: isDark ? 'rgba(26, 26, 42, 0.3)' : 'rgba(0, 0, 0, 0.01)',
+          padding: '12px 18px',
+          borderTop: `1.5px solid ${isDark ? 'rgba(0, 240, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)'}`,
+          background: isDark ? 'rgba(26, 26, 42, 0.4)' : 'rgba(0, 0, 0, 0.01)',
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
+          gap: '8px',
         }}
       >
-        <span style={{ opacity: 0.5 }}>{'> '}</span>
+        <span style={{ color: isDark ? '#00f0ff' : '#1a1a2e', fontWeight: 600 }}>{'❯ '}</span>
         <input
           ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleExecute}
-          placeholder="Type a command..."
+          placeholder="Enter command (whoami, skills, projects, contact, help, clear)"
           style={{
             flex: 1,
             background: 'transparent',
             border: 'none',
             color: isDark ? '#00f0ff' : '#1a1a2e',
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '11px',
+            fontSize: '12px',
             outline: 'none',
             padding: 0,
+            placeholderColor: isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(26, 26, 42, 0.3)',
+            '::placeholder': {
+              color: isDark ? 'rgba(0, 240, 255, 0.3)' : 'rgba(26, 26, 42, 0.3)',
+            }
           }}
           autoFocus
         />
       </div>
 
-      {/* Scrollbar hint */}
-      {history.length > 0 && (
-        <div
-          style={{
-            fontSize: '9px',
-            padding: '4px 16px',
-            background: isDark ? 'rgba(26, 26, 42, 0.5)' : 'rgba(0, 0, 0, 0.02)',
-            color: isDark ? '#00f0ff44' : '#1a1a2e44',
-            letterSpacing: '0.05em',
-            textAlign: 'center',
-          }}
-        >
-          Type "help" for commands
-        </div>
-      )}
+      {/* Footer hint */}
+      <div
+        style={{
+          fontSize: '10px',
+          padding: '8px 18px',
+          background: isDark ? 'rgba(26, 26, 42, 0.5)' : 'rgba(0, 0, 0, 0.02)',
+          color: isDark ? '#00f0ff66' : '#1a1a2e66',
+          letterSpacing: '0.05em',
+          textAlign: 'center',
+          borderTop: `1px solid ${isDark ? 'rgba(0, 240, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)'}`,
+        }}
+      >
+        {history.length === 0 ? 'Start typing a command...' : '↑ ↓ scroll • clear to reset'}
+      </div>
     </div>
   )
 }
