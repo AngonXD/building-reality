@@ -5,6 +5,7 @@ import HUD from './components/HUD'
 import HeroOverlay from './components/HeroOverlay'
 import AboutOverlay from './components/AboutOverlay'
 import SystemArchitecture from './components/SystemArchitecture'
+import SkillsPage from './components/SkillsPage'
 import ProjectModal from './components/ProjectModal'
 import CaseStudyModal from './components/CaseStudyModal'
 import ContactOverlay from './components/ContactOverlay'
@@ -62,6 +63,7 @@ export default function App() {
       <HeroOverlay />
       <AboutOverlay />
       <SystemArchitecture />
+      <SkillsPage />
       <ContactOverlay />
       <ProjectsLabel />
       <ProjectModal />

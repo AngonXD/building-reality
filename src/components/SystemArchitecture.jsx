@@ -15,7 +15,7 @@ export default function SystemArchitecture() {
   const [visibleBlocks, setVisibleBlocks] = useState({})
   const [hoveredBlock, setHoveredBlock] = useState(null)
 
-  const visible = currentSection === 'about'
+  const visible = currentSection === 'system-architecture'
 
   // Stagger animation
   useEffect(() => {

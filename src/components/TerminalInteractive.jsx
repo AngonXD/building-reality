@@ -13,7 +13,7 @@ export default function TerminalInteractive() {
   const [input, setInput] = useState('')
   const [displayedOutput, setDisplayedOutput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [isMinimized, setIsMinimized] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(true)
   const terminalRef = useRef(null)
   const inputRef = useRef(null)
 

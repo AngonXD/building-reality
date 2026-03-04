@@ -1,6 +1,5 @@
 import { useStore } from '../store'
 import { aboutData } from '../data/projects'
-import SkillsVisualization from './SkillsVisualization'
 
 export default function AboutOverlay() {
   const isDark = useStore((s) => s.isDark)
@@ -49,8 +48,7 @@ export default function AboutOverlay() {
           {aboutData.bio}
         </p>
 
-        {/* Skills Visualization */}
-        <SkillsVisualization isDark={isDark} />
+
 
         {/* Stats */}
         <div style={{

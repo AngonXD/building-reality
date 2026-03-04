@@ -6,15 +6,16 @@ import { useStore } from '../store'
 import { projects } from '../data/projects'
 
 /*
-  Scroll Layout (6 total pages):
-  - Page 0-0.8:   Hero section (camera at center, looking at floating shapes)
-  - Page 0.8-1.2: Transition to About
-  - Page 1.2-2.0: About section
-  - Page 2.0-5.0: Projects section (camera pans left to right)
-  - Page 5.0-6.0: Contact section
+  Scroll Layout (7 total pages):
+  - Page 0-0.12:   Hero section (camera at center, looking at floating shapes)
+  - Page 0.12-0.25: About section
+  - Page 0.25-0.38: System Architecture section
+  - Page 0.38-0.50: Skills section
+  - Page 0.50-0.82: Projects section (camera pans left to right)
+  - Page 0.82-1.0: Contact section
 */
 
-const TOTAL_PAGES = 7
+const TOTAL_PAGES = 8
 
 // Camera positions for each section
 const HERO_POS = new THREE.Vector3(0, 0.5, 6)
@@ -22,6 +23,12 @@ const HERO_LOOK = new THREE.Vector3(0, 0.5, 0)
 
 const ABOUT_POS = new THREE.Vector3(0, 0.5, 4)
 const ABOUT_LOOK = new THREE.Vector3(0, 0.5, 0)
+
+const SYSTEM_ARCH_POS = new THREE.Vector3(0, 0.5, 4)
+const SYSTEM_ARCH_LOOK = new THREE.Vector3(0, 0.5, 0)
+
+const SKILLS_POS = new THREE.Vector3(0, 0.5, 4)
+const SKILLS_LOOK = new THREE.Vector3(0, 0.5, 0)
 
 // Projects: camera pans left to right
 const projectSpacing = 4.5
@@ -60,7 +67,11 @@ export default function CameraRig() {
     const heroEnd = 0.12
     const aboutStart = 0.12
     const aboutEnd = 0.25
-    const projectsStart = 0.25
+    const systemArchStart = 0.25
+    const systemArchEnd = 0.38
+    const skillsStart = 0.38
+    const skillsEnd = 0.50
+    const projectsStart = 0.50
     const projectsEnd = 0.82
     const contactStart = 0.82
 
@@ -76,6 +87,20 @@ export default function CameraRig() {
       targetPos.lerpVectors(HERO_POS, ABOUT_POS, Math.min(t * 1.5, 1))
       targetLook.lerpVectors(HERO_LOOK, ABOUT_LOOK, Math.min(t * 1.5, 1))
       setCurrentSection('about')
+      setActiveProject(-1)
+    } else if (offset <= systemArchEnd) {
+      // System Architecture section
+      const t = (offset - systemArchStart) / (systemArchEnd - systemArchStart)
+      targetPos.lerpVectors(ABOUT_POS, SYSTEM_ARCH_POS, t)
+      targetLook.lerpVectors(ABOUT_LOOK, SYSTEM_ARCH_LOOK, t)
+      setCurrentSection('system-architecture')
+      setActiveProject(-1)
+    } else if (offset <= skillsEnd) {
+      // Skills section
+      const t = (offset - skillsStart) / (skillsEnd - skillsStart)
+      targetPos.lerpVectors(SYSTEM_ARCH_POS, SKILLS_POS, t)
+      targetLook.lerpVectors(SYSTEM_ARCH_LOOK, SKILLS_LOOK, t)
+      setCurrentSection('skills')
       setActiveProject(-1)
     } else if (offset <= projectsEnd) {
       // Projects section - pan left to right
